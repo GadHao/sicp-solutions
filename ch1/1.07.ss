@@ -12,9 +12,10 @@ the limited precision, it will be "improved" again and again
 So if we want to design a procedure to avoid these situations, we can compare the "guess"
 with "the next guess" to judge if the result is "good enough"
 |#
+
+;;; The sqrt in the book
 (define (sqrt-iter guess x)
-    (define improved_guess (improve guess x))
-    (if (good-enough? guess improved_guess)
+    (if (good-enough? guess x)
         guess
         (sqrt-iter (improve guess x) x)))
 
@@ -24,11 +25,25 @@ with "the next guess" to judge if the result is "good enough"
 (define (average x y)
     (/ (+ x y) 2))
 
-(define (good-enough? guess improved_guess)
-    (< (abs (- guess improved_guess)) 0.001))
+(define (good-enough? guess x)
+    (< (abs (- (square guess) x)) 0.001))
 
 (define (sqrt x)
     (sqrt-iter 1.0 x))
 
 (define (square x)
-    (* x x))    
+    (* x x))
+
+
+;;; The better-sqrt
+(define (better-sqrt x)
+    (better-sqrt-iter 1.0 x))
+
+(define (better-sqrt-iter guess x)
+    (define improved_guess (improve guess x))
+    (if (better-good-enough? guess improved_guess)
+        guess
+        (better-sqrt-iter (improve guess x) x)))
+
+(define (better-good-enough? guess improved_guess)
+    (< (abs (- guess improved_guess)) 0.001))
