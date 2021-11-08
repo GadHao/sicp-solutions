@@ -43,7 +43,7 @@ with "the next guess" to judge if the result is "good enough"
     (define improved_guess (improve guess x))
     (if (better-good-enough? guess improved_guess)
         guess
-        (better-sqrt-iter (improve guess x) x)))
+        (better-sqrt-iter improved_guess x)))
 
 (define (better-good-enough? guess improved_guess)
     (< (abs (- guess improved_guess)) 0.001))
